@@ -66,6 +66,21 @@ namespace Newtonsoft.Json
         private const int LargeBufferLength = int.MaxValue / 2;
 #endif
 
+        public override string RawString
+        {
+            get
+            {
+                if (_stringReference.Chars != null)
+                {
+                    return    _stringReference.ToString();
+                }
+                var stringRef = new StringReference(_chars, previousCharPos, _charPos - previousCharPos);
+                return stringRef.ToString();
+            }
+        }
+
+        private int previousCharPos;
+
         private readonly TextReader _reader;
         private char[]? _chars;
         private int _charsUsed;
@@ -415,6 +430,8 @@ namespace Newtonsoft.Json
         {
             EnsureBuffer();
             MiscellaneousUtils.Assert(_chars != null);
+
+            previousCharPos = CharPos;
 
             while (true)
             {

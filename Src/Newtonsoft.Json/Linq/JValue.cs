@@ -50,6 +50,7 @@ namespace Newtonsoft.Json.Linq
     {
         private JTokenType _valueType;
         private object? _value;
+        public string RawValue { get; set; }
 
         internal JValue(object? value, JTokenType type)
         {
