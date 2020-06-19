@@ -65,8 +65,10 @@ namespace Newtonsoft.Json
 #else
         private const int LargeBufferLength = int.MaxValue / 2;
 #endif
-
-        public override string RawString
+        /// <summary>
+        /// Get the raw original string representation of the current token
+        /// </summary>
+        public override string? RawString
         {
             get
             {
@@ -74,12 +76,16 @@ namespace Newtonsoft.Json
                 {
                     return    _stringReference.ToString();
                 }
-                var stringRef = new StringReference(_chars, previousCharPos, _charPos - previousCharPos);
-                return stringRef.ToString();
+                if (_chars != null)
+                {
+                    var stringRef = new StringReference(_chars, _previousCharPos, _charPos - _previousCharPos);
+                    return stringRef.ToString();
+                }
+                return null;
             }
         }
 
-        private int previousCharPos;
+        private int _previousCharPos;
 
         private readonly TextReader _reader;
         private char[]? _chars;
@@ -431,7 +437,7 @@ namespace Newtonsoft.Json
             EnsureBuffer();
             MiscellaneousUtils.Assert(_chars != null);
 
-            previousCharPos = CharPos;
+            _previousCharPos = _charPos;
 
             while (true)
             {

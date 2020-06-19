@@ -821,8 +821,10 @@ namespace Newtonsoft.Json.Linq
                     case JsonToken.Date:
                     case JsonToken.Boolean:
                     case JsonToken.Bytes:
-                        JValue v = new JValue(r.Value);
-                        v.RawValue = r.RawString;
+                        JValue v = new JValue(r.Value)
+                        {
+                            RawString = r.RawString
+                        };
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                         break;
@@ -836,7 +838,6 @@ namespace Newtonsoft.Json.Linq
                         break;
                     case JsonToken.Null:
                         v = JValue.CreateNull();
-                        v.RawValue = r.RawString;
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                         break;

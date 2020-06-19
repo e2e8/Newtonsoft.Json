@@ -126,7 +126,10 @@ namespace Newtonsoft.Json
         private string? _dateFormatString;
         private List<JsonPosition>? _stack;
 
-        public virtual string RawString { get; }
+        /// <summary>
+        /// Get the raw original string representation of the current token
+        /// </summary>
+        public virtual string? RawString { get; }
 
         /// <summary>
         /// Gets the current reader state.
